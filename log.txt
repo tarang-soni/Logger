@@ -1,0 +1,10 @@
+LoggerLibrary.cpp => main():11 => This is an error message.
+LoggerLibrary.cpp => main():9 => This is an info message. 12 LOLOOLOL
+LoggerLibrary.cpp => main():10 => This is an warning message.
+LoggerLibrary.cpp => main():11 => This is an error message.
+2025-09-26 12:44:11.615
+LoggerLibrary.cpp => main():9 => This is an info message. 12 LOLOOLOL
+2025-09-26 12:44:11.617
+LoggerLibrary.cpp => main():10 => This is an warning message.
+2025-09-26 12:44:11.618
+LoggerLibrary.cpp => main():11 => This is an error message.
