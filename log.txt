@@ -1,10 +1,63 @@
-LoggerLibrary.cpp => main():11 => This is an error message.
-LoggerLibrary.cpp => main():9 => This is an info message. 12 LOLOOLOL
-LoggerLibrary.cpp => main():10 => This is an warning message.
-LoggerLibrary.cpp => main():11 => This is an error message.
-2025-09-26 12:44:11.615
-LoggerLibrary.cpp => main():9 => This is an info message. 12 LOLOOLOL
-2025-09-26 12:44:11.617
-LoggerLibrary.cpp => main():10 => This is an warning message.
-2025-09-26 12:44:11.618
-LoggerLibrary.cpp => main():11 => This is an error message.
+2025-09-29 00:31:56.052
+LoggerLibrary.cpp => main():13 => This is an info message. 12 LOLOOLOL
+2025-09-29 00:31:56.053
+LoggerLibrary.cpp => main():14 => This is an warning message.
+2025-09-29 00:31:56.053
+LoggerLibrary.cpp => main():15 => This is an error message.
+-----------------------------------------------------
+2025-09-29 00:32:00.686
+LoggerLibrary.cpp => main():13 => This is an info message. 12 LOLOOLOL
+2025-09-29 00:32:00.687
+LoggerLibrary.cpp => main():14 => This is an warning message.
+2025-09-29 00:32:00.687
+LoggerLibrary.cpp => main():15 => This is an error message.
+-----------------------------------------------------
+2025-09-29 00:50:31.856
+LoggerLibrary.cpp => main():13 => [INFO]LoggerLibrary.cpp => main():13 => [INFO]This is an info message. 12 LOLOOLOL
+2025-09-29 00:50:31.857
+LoggerLibrary.cpp => main():14 => [WARN]LoggerLibrary.cpp => main():14 => [WARN]This is an warning message.
+2025-09-29 00:50:31.857
+LoggerLibrary.cpp => main():15 => [ERROR]LoggerLibrary.cpp => main():15 => [ERROR]This is an error message.
+-----------------------------------------------------
+2025-09-29 00:55:53.105
+LoggerLibrary.cpp => main():15 => [INFO]LoggerLibrary.cpp => main():15 => [INFO]This is an info message. 12 LOLOOLOL
+2025-09-29 00:55:53.106
+LoggerLibrary.cpp => main():16 => [WARN]LoggerLibrary.cpp => main():16 => [WARN]This is an warning message.
+2025-09-29 00:55:53.106
+LoggerLibrary.cpp => main():17 => [ERROR]LoggerLibrary.cpp => main():17 => [ERROR]This is an error message.
+-----------------------------------------------------
+2025-09-29 00:56:23.674
+LoggerLibrary.cpp => main():15 => [INFO]LoggerLibrary.cpp => main():15 => [INFO]This is an info message. 12 LOLOOLOL
+2025-09-29 00:56:23.674
+LoggerLibrary.cpp => main():16 => [WARN]LoggerLibrary.cpp => main():16 => [WARN]This is an warning message.
+2025-09-29 00:56:23.675
+LoggerLibrary.cpp => main():17 => [ERROR]LoggerLibrary.cpp => main():17 => [ERROR]This is an error message.
+-----------------------------------------------------
+2025-09-29 00:56:50.518
+LoggerLibrary.cpp => main():15 => [INFO]This is an info message. 12 LOLOOLOL
+2025-09-29 00:56:50.519
+LoggerLibrary.cpp => main():16 => [WARN]This is an warning message.
+2025-09-29 00:56:50.519
+LoggerLibrary.cpp => main():17 => [ERROR]This is an error message.
+-----------------------------------------------------
+2025-09-29 00:57:33.838
+[INFO]LoggerLibrary.cpp => main():15 => This is an info message. 12 LOLOOLOL
+2025-09-29 00:57:33.838
+[WARN]LoggerLibrary.cpp => main():16 => This is an warning message.
+2025-09-29 00:57:33.839
+[ERROR]LoggerLibrary.cpp => main():17 => This is an error message.
+-----------------------------------------------------
+2025-09-29 00:58:51.044
+LoggerLibrary.cpp => main():15 => [INFO] This is an info message. 12 LOLOOLOL
+2025-09-29 00:58:51.045
+LoggerLibrary.cpp => main():16 => [WARN] This is an warning message.
+2025-09-29 00:58:51.045
+LoggerLibrary.cpp => main():17 => [ERROR] This is an error message.
+-----------------------------------------------------
+2025-09-29 00:59:02.784
+LoggerLibrary.cpp => main():15 => [INFO] This is an info message. 12 LOLOOLOL
+2025-09-29 00:59:02.785
+LoggerLibrary.cpp => main():16 => [WARN] This is an warning message.
+2025-09-29 00:59:02.785
+LoggerLibrary.cpp => main():17 => [ERROR] This is an error message.
+-----------------------------------------------------
