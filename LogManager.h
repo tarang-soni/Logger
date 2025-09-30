@@ -8,18 +8,49 @@
 #include<chrono>
 #include <ctime>
 #include <iomanip>
-
+#include <mutex>
+#include <thread>
+#include <queue>
+#include <utility>
 
 namespace Log 
 {
 	class LogManager
 	{
+		struct LogData
+		{
+			LogLevel level;
+			const char* filename;
+			const char* funcname;
+			int line;
+			std::string message;
+
+		};
 	private:
 		std::vector<std::unique_ptr<ILogger>> m_sinks;
-		LogManager() {}
+		std::mutex m_mutex;
+		std::thread m_logThread;
+		std::condition_variable cv;
+		bool m_exit;
+		std::queue<std::unique_ptr<LogData>> m_logQueue;
+		LogManager():m_exit(false) 
+		{
+			m_logThread = std::thread(&LogManager::LogTask, this);
+		}
 	public:
 		LogManager(const LogManager&) = delete;
 		LogManager& operator= (const LogManager&) = delete;
+
+		virtual ~LogManager()
+		{
+			//std::lock_guard<std::mutex> lock(m_mu
+			{
+				std::lock_guard<std::mutex> lock(m_mutex);	//thread safety
+				m_exit = true;
+			}
+			cv.notify_one();
+			m_logThread.join();
+		}
 		inline static LogManager& Get()
 		{
 			static LogManager instance;
@@ -28,20 +59,23 @@ namespace Log
 		void AddSink(std::unique_ptr<ILogger> sink)
 		{
 			m_sinks.push_back(std::move(sink));
+
 		}
 		template<typename ...Args>
 		void Log(LogLevel level, const char* filename, const char* funcname, int line, Args... args)
 		{
+
 			std::ostringstream oss;
-			SetLogData(oss, level, filename, funcname, line);
 			(oss << ... << args);
-			std::string message = oss.str();
-			for (const auto& sink : m_sinks)
+			auto logData = std::make_unique<LogData>(level, filename, funcname, line, oss.str());
 			{
-				sink->Log(level, message);
+				std::lock_guard<std::mutex> lock(m_mutex);	//thread safety
+				m_logQueue.push(std::move(logData));
 			}
+			cv.notify_one();
 		}
 
+	private:
 
 
 		void SetLogData(std::ostringstream& oss, LogLevel level, const char* filename, const char* funcname, int line)
@@ -70,6 +104,28 @@ namespace Log
 			default: return "[NONE]";
 			}
 		}
+		void LogTask()
+		{
+			while(true)
+			{
+				std::unique_lock<std::mutex> lock(m_mutex);
+				cv.wait(lock, [this] {
+					return !m_logQueue.empty() || m_exit;
+					});
+				if (m_exit && m_logQueue.empty())
+					break;
+
+				std::unique_ptr<LogData> data = std::move(m_logQueue.front());
+				m_logQueue.pop();
+				std::ostringstream oss;
+
+				SetLogData(oss, data->level, data->filename, data->funcname, data->line);
+				for (const auto& sink : m_sinks)
+				{
+					sink->Log(data->level, data->message);
+				}
+			}
+		}
 	};
 
 }
@@ -78,49 +134,3 @@ namespace Log
 #define LOG_ERROR(...) Log::LogManager::Get().Log(Log::LogLevel::Error,__FILE__,__func__,__LINE__,__VA_ARGS__)
 
 
-//TODO: Logger Library Phases
-//
-//Phase 1: Core Logging
-//- [x] Enum for log levels (Info, Warning, Error)
-//- [x] Basic Log function for console output
-//- [x] Macros: LOG_INFO, LOG_WARN, LOG_ERROR
-//
-//Phase 2: File/Line/Function Metadata
-//- [x] Use __FILE__, __LINE__, __func__ in macros
-//- [x] Format log output: [timestamp][LEVEL] file => func():line => message
-//
-//Phase 3: Timestamp Support
-//- [x] Add current timestamp with milliseconds
-//- [x] Use std::chrono and std::put_time
-//
-//Phase 4: Variadic Templates
-//- [x] Support multi-argument logging
-//- [x] Recursive LogArgs function with base case
-//
-//Phase 5: Colored Console Output
-//- [x] Different colors for Info/Warning/Error
-//- [x] Reset color after printing
-//
-//Phase 6: Optional Enhancements
-//- [x] Add file logging (write logs to file) 
-//- [ ] Thread safety with std::mutex
-//- [ ] Log level filtering (skip Info in production)
-//
-//Phase 7: Publishing / Packaging
-//- [x] GitHub repo setup
-//- [ ] Build instructions / CMake integration
-//- [ ] README with usage examples
-//
-//Phase 8: Advanced Features
-//- [x] Multiple logger instances (categories)
-//- [ ] Custom log formats (JSON, CSV, etc.)
-//- [ ] Rotating log files (size-based or daily)
-//- [ ] Callbacks / Observer support for log events
-//- [ ] Performance optimization (minimal overhead in high-frequency logging)
-//
-//Phase 9: Testing & Documentation
-//- [ ] Unit tests for all log levels and multi-argument logs
-//- [ ] Multi-threaded logging tests
-//- [ ] Document macros, usage, and example code
-//
-//*/

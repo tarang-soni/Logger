@@ -61,3 +61,24 @@ LoggerLibrary.cpp => main():16 => [WARN] This is an warning message.
 2025-09-29 00:59:02.785
 LoggerLibrary.cpp => main():17 => [ERROR] This is an error message.
 -----------------------------------------------------
+2025-09-30 20:17:56.372
+This is an info message. 12 LOLOOLOL
+2025-09-30 20:17:56.374
+This is an warning message.
+2025-09-30 20:17:56.375
+This is an error message.
+-----------------------------------------------------
+2025-09-30 20:31:57.296
+This is an info message. 12 LOLOOLOL
+2025-09-30 20:31:57.296
+This is an warning message.
+2025-09-30 20:31:57.298
+This is an error message.
+-----------------------------------------------------
+2025-09-30 20:37:27.141
+This is an info message. 12 LOLOOLOL
+2025-09-30 20:37:27.143
+This is an warning message.
+2025-09-30 20:37:27.144
+This is an error message.
+-----------------------------------------------------

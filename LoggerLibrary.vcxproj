@@ -133,7 +133,6 @@
     <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="FileLogger.h" />
     <ClInclude Include="ILogger.h" />
-    <ClInclude Include="Logger.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="LogUtil.h" />
   </ItemGroup>
