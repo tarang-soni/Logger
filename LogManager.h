@@ -2,9 +2,7 @@
 #include <memory>
 #include <vector>
 #include <sstream>
-#include "ILogger.h"
-#include "LogLevel.h"
-#include "LogUtil.h"
+
 #include<chrono>
 #include <ctime>
 #include <iomanip>
@@ -13,10 +11,14 @@
 #include <queue>
 #include <utility>
 
+#include "ILogger.h"
+#include "LogLevel.h"
+#include "LogUtil.h"
 namespace Log 
 {
 	class LogManager
 	{
+	private:
 		struct LogData
 		{
 			LogLevel level;
@@ -33,10 +35,7 @@ namespace Log
 		std::condition_variable cv;
 		bool m_exit;
 		std::queue<std::unique_ptr<LogData>> m_logQueue;
-		LogManager():m_exit(false) 
-		{
-			m_logThread = std::thread(&LogManager::LogTask, this);
-		}
+		LogLevel m_logFilter;
 	public:
 		LogManager(const LogManager&) = delete;
 		LogManager& operator= (const LogManager&) = delete;
@@ -64,6 +63,7 @@ namespace Log
 		template<typename ...Args>
 		void Log(LogLevel level, const char* filename, const char* funcname, int line, Args... args)
 		{
+			if(level > m_logFilter) return;
 
 			std::ostringstream oss;
 			(oss << ... << args);
@@ -74,12 +74,20 @@ namespace Log
 			}
 			cv.notify_one();
 		}
-
+		void SetLogFilter(LogLevel filter)
+		{
+			std::lock_guard<std::mutex> lock(m_mutex);
+			m_logFilter = filter;
+		}
 	private:
-
+		LogManager() :m_exit(false),m_logFilter(LogLevel::Error)
+		{
+			m_logThread = std::thread(&LogManager::LogTask, this);
+		}
 
 		void SetLogData(std::ostringstream& oss, LogLevel level, const char* filename, const char* funcname, int line)
 		{
+			
 			std::string fileName = filename;
 			size_t pos = fileName.find_last_of("\\/");
 			if (pos != std::string::npos) fileName = fileName.substr(pos + 1);
@@ -133,4 +141,4 @@ namespace Log
 #define LOG_WARN(...) Log::LogManager::Get().Log(Log::LogLevel::Warning,__FILE__,__func__,__LINE__,__VA_ARGS__)
 #define LOG_ERROR(...) Log::LogManager::Get().Log(Log::LogLevel::Error,__FILE__,__func__,__LINE__,__VA_ARGS__)
 
-
+#define SET_LOG_FILTER(filter) Log::LogManager::Get().SetLogFilter(filter)

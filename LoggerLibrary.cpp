@@ -10,11 +10,12 @@ int main()
 {
 	Log::LogManager::Get().AddSink(std::make_unique<Log::FileLogger>("log.txt", Log::LogLevel::Info | Log::LogLevel::Warning | Log::LogLevel::Error));
 	Log::LogManager::Get().AddSink(std::make_unique<Log::ConsoleLogger>(std::cout, Log::LogLevel::Info | Log::LogLevel::Warning | Log::LogLevel::Error));
-
-
+	SET_LOG_FILTER(Log::LogLevel::Info);
 	LOG_INFO("This is an info message. ", 12, " LOLOOLOL");
 	LOG_WARN("This is an warning message.");
 	LOG_ERROR("This is an error message.");
 
 	return 0;
 }
+//TODO: Add nlohmann json and make a json file for logging
+//TOOD: Add OpenXLSX to make an xlsx(excel friendly) file for logging
